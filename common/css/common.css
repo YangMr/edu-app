@@ -1,0 +1,113 @@
+/* #ifndef APP-PLUS-NVUE */
+view,
+scroll-view,
+swiper,
+swiper-item,
+cover-view,
+cover-image,
+icon,
+text,
+rich-text,
+progress,
+button,
+checkbox,
+form,
+input,
+label,
+radio,
+slider,
+switch,
+textarea,
+navigator,
+audio,
+camera,
+image,
+video {
+	/* 
+	对元素指定宽度和高度包括了 padding 和 border 。
+	通过从已设定的宽度和高度分别减去边框和内边距才能得到内容的宽度和高度 
+	还有个就是view之间不会有间隙
+	*/
+	box-sizing: border-box;
+}
+
+
+image {
+	/* 去掉底部白色背景 */
+	display: block;
+}
+/* #endif */
+
+/* 布局 */
+.center{
+	/* #ifndef APP-PLUS-NVUE */
+	display:flex;
+	/* #endif */
+	align-items: center;
+	justify-content: center;
+}
+.row{
+	/* #ifndef APP-PLUS-NVUE */
+	display:flex;
+	/* #endif */
+	flex-direction: row;
+}
+.column{
+	/* #ifndef APP-PLUS-NVUE */
+	display:flex;
+	/* #endif */
+	flex-direction: column;
+}
+
+.space-between {
+	/* #ifndef APP-PLUS-NVUE */
+	display:flex;
+	/* #endif */
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.one{
+	flex: 1;
+}
+
+/* input */
+.placeholder{
+	color: #999 !important;
+}
+
+/* 隐藏滚动条的问题,但依旧具备可以滚动的功能 */
+/* 解决小程序和app  */
+/* #ifdef MP-WEIXIN || APP-PLUS */
+	.noScorll ::-webkit-scrollbar{
+		display: none;
+	}
+/* #endif */
+/* 解决 H5 的问题 */
+/* #ifdef H5 */
+	.noScorll ::-webkit-scrollbar {
+		width: 0 !important;
+		height: 0 !important;
+		display: none;
+	}
+/* #endif */
+
+.text-ellipsis {
+	overflow: hidden;
+	text-overflow: ellipsis; //显示省略号
+	-webkit-line-clamp: 2; //最多2行
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	white-space: normal;
+}
+
+/* 蒙层 */
+.mask {
+	z-index: 99;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0,0,0,0.7);
+}

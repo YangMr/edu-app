@@ -1,6 +1,6 @@
 <template>
 	<view>
-		首页
+		问答
 	</view>
 </template>
 
@@ -11,15 +11,12 @@
 				
 			}
 		},
-		onLoad() {
-
-		},
 		methods: {
-
+			
 		}
 	}
 </script>
 
 <style>
-	
+
 </style>
