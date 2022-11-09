@@ -5,7 +5,18 @@
 		<i-search-input></i-search-input>
 		<!-- #endif -->
 		
-		<i-banner></i-banner>
+		<!-- 轮播图 -->
+		<i-new-banner></i-new-banner>
+
+		<!-- 课程分类 -->
+		<courseCategory></courseCategory>
+		
+		<!-- 热门推荐、近期上新、免费精选 、付费精品、 -->
+		<view class="list-container">
+			<!-- 热门推荐 -->
+			<swiperCourse></swiperCourse>
+		</view>
+		
 	</view>
 </template>
 
@@ -13,7 +24,10 @@
 	// 引入搜索框组件
 	import iSearchInput from "@/components/common/i-search-input.vue"
 	// 引入轮播图组件
-	import iBanner from "@/components/common/i-banner.vue"
+	import iNewBanner from "@/components/common/i-new-banner.vue"
+	// 引入分类组件
+	import courseCategory from "@/pages/index/components/course-category.vue"
+	import swiperCourse from "@/pages/index/components/swiper-course.vue"
 	
 	// 引入搜索框模型
 	import SearchModel from "@/model/searchModel.js"
@@ -25,7 +39,9 @@
 		},
 		components : {
 			iSearchInput,
-			iBanner
+			iNewBanner,
+			courseCategory,
+			swiperCourse
 		},
 		onLoad() {
 			// #ifdef APP-PLUS
@@ -40,6 +56,8 @@
 	}
 </script>
 
-<style>
-	
+<style lang="scss">
+.list-container{
+	padding : 0 30rpx;
+}
 </style>
