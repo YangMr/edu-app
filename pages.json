@@ -10,6 +10,7 @@
 				"app-plus": {
 					// titleNView 导航栏
 					"titleNView": {
+						// 导航栏背景透明渐变效果 / 不占位
 						"type" : "transparent",
 						// 导航栏的输入框
 						"searchInput": {
@@ -28,6 +29,7 @@
 						}
 						// 自定义按钮 --- 只在APP端显示
 						// #ifdef APP-PLUS
+						,
 						"buttons": [
 							{
 								"float": "right",

@@ -766,8 +766,8 @@ function populateParameters(result) {var _result$brand =
     appVersion: "1.0.0",
     appVersionCode: "100",
     appLanguage: getAppLanguage(hostLanguage),
-    uniCompileVersion: "3.5.3",
-    uniRuntimeVersion: "3.5.3",
+    uniCompileVersion: "3.6.4",
+    uniRuntimeVersion: "3.6.4",
     uniPlatform: undefined || "mp-weixin",
     deviceBrand: deviceBrand,
     deviceModel: model,
@@ -1222,11 +1222,12 @@ function getPushClientId(args) {
   var hasSuccess = isFn(success);
   var hasFail = isFn(fail);
   var hasComplete = isFn(complete);
+
   Promise.resolve().then(function () {
     if (typeof enabled === 'undefined') {
       enabled = false;
       cid = '';
-      cidErrMsg = 'unipush is not enabled';
+      cidErrMsg = 'uniPush is not enabled';
     }
     getPushCidCallbacks.push(function (cid, errMsg) {
       var res;
@@ -1289,7 +1290,17 @@ var customize = cached(function (str) {
 function initTriggerEvent(mpInstance) {
   var oldTriggerEvent = mpInstance.triggerEvent;
   var newTriggerEvent = function newTriggerEvent(event) {for (var _len3 = arguments.length, args = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {args[_key3 - 1] = arguments[_key3];}
-    return oldTriggerEvent.apply(mpInstance, [customize(event)].concat(args));
+    // 事件名统一转驼峰格式，仅处理：当前组件为 vue 组件、当前组件为 vue 组件子组件
+    if (this.$vm || this.dataset && this.dataset.comType) {
+      event = customize(event);
+    } else {
+      // 针对微信/QQ小程序单独补充驼峰格式事件，以兼容历史项目
+      var newEvent = customize(event);
+      if (newEvent !== event) {
+        oldTriggerEvent.apply(this, [newEvent].concat(args));
+      }
+    }
+    return oldTriggerEvent.apply(this, [event].concat(args));
   };
   try {
     // 京东小程序 triggerEvent 为只读
@@ -1386,6 +1397,29 @@ function initHooks(mpOptions, hooks, vueOptions) {
       };
     }
   });
+}
+
+function initUnknownHooks(mpOptions, vueOptions) {var excludes = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+  findHooks(vueOptions).forEach(function (hook) {return initHook$1(mpOptions, hook, excludes);});
+}
+
+function findHooks(vueOptions) {var hooks = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+  if (vueOptions) {
+    Object.keys(vueOptions).forEach(function (name) {
+      if (name.indexOf('on') === 0 && isFn(vueOptions[name])) {
+        hooks.push(name);
+      }
+    });
+  }
+  return hooks;
+}
+
+function initHook$1(mpOptions, hook, excludes) {
+  if (excludes.indexOf(hook) === -1 && !hasOwn(mpOptions, hook)) {
+    mpOptions[hook] = function (args) {
+      return this.$vm && this.$vm.__call_hook(hook, args);
+    };
+  }
 }
 
 function initVueComponent(Vue, vueOptions) {
@@ -1673,7 +1707,7 @@ function getExtraValue(vm, dataPathsArray) {
   return context;
 }
 
-function processEventExtra(vm, extra, event) {
+function processEventExtra(vm, extra, event, __args__) {
   var extraObj = {};
 
   if (Array.isArray(extra) && extra.length) {
@@ -1696,11 +1730,7 @@ function processEventExtra(vm, extra, event) {
           if (dataPath === '$event') {// $event
             extraObj['$' + index] = event;
           } else if (dataPath === 'arguments') {
-            if (event.detail && event.detail.__args__) {
-              extraObj['$' + index] = event.detail.__args__;
-            } else {
-              extraObj['$' + index] = [event];
-            }
+            extraObj['$' + index] = event.detail ? event.detail.__args__ || __args__ : __args__;
           } else if (dataPath.indexOf('$event.') === 0) {// $event.target.value
             extraObj['$' + index] = vm.__get_value(dataPath.replace('$event.', ''), event);
           } else {
@@ -1727,6 +1757,12 @@ function getObjByArray(arr) {
 
 function processEventArgs(vm, event) {var args = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];var extra = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : [];var isCustom = arguments.length > 4 ? arguments[4] : undefined;var methodName = arguments.length > 5 ? arguments[5] : undefined;
   var isCustomMPEvent = false; // wxcomponent 组件，传递原始 event 对象
+
+  // fixed 用户直接触发 mpInstance.triggerEvent
+  var __args__ = isPlainObject(event.detail) ?
+  event.detail.__args__ || [event.detail] :
+  [event.detail];
+
   if (isCustom) {// 自定义事件
     isCustomMPEvent = event.currentTarget &&
     event.currentTarget.dataset &&
@@ -1735,11 +1771,11 @@ function processEventArgs(vm, event) {var args = arguments.length > 2 && argumen
       if (isCustomMPEvent) {
         return [event];
       }
-      return event.detail.__args__ || event.detail;
+      return __args__;
     }
   }
 
-  var extraObj = processEventExtra(vm, extra, event);
+  var extraObj = processEventExtra(vm, extra, event, __args__);
 
   var ret = [];
   args.forEach(function (arg) {
@@ -1748,7 +1784,7 @@ function processEventArgs(vm, event) {var args = arguments.length > 2 && argumen
         ret.push(event.target.value);
       } else {
         if (isCustom && !isCustomMPEvent) {
-          ret.push(event.detail.__args__[0]);
+          ret.push(__args__[0]);
         } else {// wxcomponent 组件或内置组件
           ret.push(event);
         }
@@ -2055,6 +2091,7 @@ function parseBaseApp(vm, _ref3)
   initAppLocale(_vue.default, vm, normalizeLocale(wx.getSystemInfoSync().language) || LOCALE_EN);
 
   initHooks(appOptions, hooks);
+  initUnknownHooks(appOptions, vm.$options);
 
   return appOptions;
 }
@@ -2333,6 +2370,7 @@ function parseBasePage(vuePageOptions, _ref6)
     this.$vm.$mp.query = query; // 兼容 mpvue
     this.$vm.__call_hook('onLoad', query);
   };
+  initUnknownHooks(pageOptions.methods, vuePageOptions, ['onReady']);
 
   return pageOptions;
 }
@@ -8818,9 +8856,12 @@ function internalMixin(Vue) {
 
   Vue.prototype.$emit = function(event) {
     if (this.$scope && event) {
-      (this.$scope['_triggerEvent'] || this.$scope['triggerEvent']).call(this.$scope, event, {
-        __args__: toArray(arguments, 1)
-      });
+      var triggerEvent = this.$scope['_triggerEvent'] || this.$scope['triggerEvent'];
+      if (triggerEvent) {
+        triggerEvent.call(this.$scope, event, {
+          __args__: toArray(arguments, 1)
+        });
+      }
     }
     return oldEmit.apply(this, arguments)
   };
@@ -8987,7 +9028,8 @@ var LIFECYCLE_HOOKS$1 = [
     // 'onReady', // 兼容旧版本，应该移除该事件
     'onPageShow',
     'onPageHide',
-    'onPageResize'
+    'onPageResize',
+    'onUploadDouyinVideo'
 ];
 function lifecycleMixin$1(Vue) {
 
