@@ -3,8 +3,8 @@
 		<!-- 标题区域 -->
 		<view class="title row space-between center">
 			<view class="center">
-				<text class="name">热门推荐</text>
-				<text class="word">HOT</text>
+				<text class="name">{{name}}</text>
+				<text class="word" v-if="word">{{word}}</text>
 			</view>
 			<view class="all ">
 				<text>全部</text>
@@ -17,6 +17,18 @@
 </template>
 
 <script>
+export default {
+	props : {
+		name : {
+			type : String,
+			default : ''
+		},
+		word : {
+			type : String,
+			default : ''
+		}
+	}
+}
 </script>
 
 <style lang="scss">
