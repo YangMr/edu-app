@@ -48,6 +48,20 @@
     },
     /* 快应用特有相关 */
     "quickapp" : {},
+	/* H5相关 */
+	"h5": {
+		"devServer": {
+			"proxy" : {
+				"/api" : {
+					"target" : "http://m.mengxuegu.com/api",
+					"changeOrigin" : true,
+					"pathRewrite" : {
+						"^/api" : ""
+					}
+				}
+			}
+		}
+	},
     /* 小程序特有相关 */
     "mp-weixin" : {
         "appid" : "wx8c8b3bb4e09338eb",

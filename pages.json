@@ -79,6 +79,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/public/web-view",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		// 状态栏与导航栏背景色

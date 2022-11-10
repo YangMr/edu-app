@@ -6,7 +6,7 @@
 		<!-- #endif -->
 		
 		<!-- 轮播图 -->
-		<i-new-banner></i-new-banner>
+		<i-new-banner :bannerList="bannerList"></i-new-banner>
 
 		<!-- 课程分类 -->
 		<courseCategory></courseCategory>
@@ -20,7 +20,7 @@
 			<!-- 免费精选 -->
 			<swiper-course name="免费精选" word="FREE"></swiper-course>
 			<!-- 付费精品 -->
-		
+			<list-course name="付费精品" word="NICE"></list-course>
 		</view>
 		
 	</view>
@@ -37,13 +37,25 @@
 	import swiperCourse from "@/pages/index/components/swiper-course.vue"
 	// 引入近期上新组件
 	import scollCourse from "@/pages/index/components/scroll-course.vue"
+	// 引入付费精品组件
+	import listCourse from "@/pages/index/components/list-course.vue"
 	
 	// 引入搜索框模型
 	import SearchModel from "@/model/searchModel.js"
+	// 引入首页模型
+	import IndexModel from "@/model/indexModel.js"
+	// 导入封装的首页api
+	import indexApi from "@/api/index.js"
 	export default {
 		data() {
 			return {
-				
+				bannerList : []
+			}
+		},
+		onNavigationBarButtonTap : function (e) {
+			const index = e.index
+			if(index === 0){
+				IndexModel.handleOpenScanCode()
 			}
 		},
 		components : {
@@ -51,7 +63,8 @@
 			iNewBanner,
 			courseCategory,
 			swiperCourse,
-			scollCourse
+			scollCourse,
+			listCourse
 		},
 		onLoad() {
 			// #ifdef APP-PLUS
@@ -59,9 +72,19 @@
 			SearchModel.handleUpdatePlaceholderText(this)
 			// #endif
 			
+			// 调用获取轮播图数据方法
+			this.getBannerList()
 		},
 		methods: {
-			
+			// 获取轮播图数据
+			async getBannerList(){
+				try {
+					const res = await indexApi.getBanner()
+					this.bannerList = res
+				}catch(e){
+					console.log("err", e)
+				}
+			}
 		}
 	}
 </script>
