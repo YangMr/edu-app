@@ -1,7 +1,7 @@
 <template>
 	<list-box :name="name" :word="word">
 		<scroll-view class="list-scroll noScorll" scroll-x="true">
-			<view class="list-scroll-view"  v-for="(item,index) in courseData" :key="item.id">
+			<view class="list-scroll-view"  v-for="(item,index) in courseData" :key="index">
 				<courseItem :isColumn="true" :item="item"></courseItem>
 			</view>
 		</scroll-view>
@@ -11,7 +11,7 @@
 <script>
 import listBox from "@/pages/index/components/list-box.vue"
 import courseItem from "@/components/common/i-course-item.vue"
-import courseData from "@/mock/courseData.js"
+// import courseData from "@/mock/courseData.js"
 export default {
 	props : {
 		name : {
@@ -24,8 +24,12 @@ export default {
 		},
 		courseData: {
 			 type: Array,
-			 default: ()=> courseData
+			 default: ()=> []
 		}
+		// courseData: {
+		// 	 type: Array,
+		// 	 default: ()=> courseData
+		// }
 	},
 	components : {
 		listBox,

@@ -17,7 +17,7 @@
 <script>
 import listBox from "@/pages/index/components/list-box.vue"
 import iCourseItem from "@/components/common/i-course-item.vue"
-import courseData from "@/mock/courseData.js"
+// import courseData from "@/mock/courseData.js"
 export default {
 	props : {
 		name : {
@@ -38,8 +38,12 @@ export default {
 		},
 		courseData : {
 			type : Array,
-			default : () => courseData
+			default : () => []
 		}
+		// courseData : {
+		// 	type : Array,
+		// 	default : () => courseData
+		// }
 	},
 	data(){
 		return {

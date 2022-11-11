@@ -1,13 +1,13 @@
 <template>
 	<list-box :name="name" :word="word">
-		<i-course-item :item="item" v-for="(item,index) in courseData" :key="item.id"></i-course-item>
+		<i-course-item :item="item" v-for="(item,index) in courseData" :key="index"></i-course-item>
 	</list-box>
 </template>
 
 <script>
 import listBox from "@/pages/index/components/list-box.vue"
 import iCourseItem from "@/components/common/i-course-item.vue"
-import courseData from "@/mock/courseData.js"
+// import courseData from "@/mock/courseData.js"
 export default {
 	props : {
 		name : {
@@ -20,8 +20,12 @@ export default {
 		},
 		courseData : {
 			type : Array,
-			default : () => courseData
+			default : () => []
 		}
+		// courseData : {
+		// 	type : Array,
+		// 	default : () => courseData
+		// }
 	},
 	components : {
 		listBox,
