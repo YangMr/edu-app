@@ -1,9 +1,10 @@
 import indexApi from "@/api/index.js"
 class IndexModel {
+	
+	// 页码
 	static current = 1
+	// 条数
 	static size = 8
-	static total = 0
-	static data = []
 	
 	// 开启扫码
 	static async handleOpenScanCode() {
@@ -21,32 +22,22 @@ class IndexModel {
 		}
 	}
 	
-	// 获取课程列表数据
+	// 获取(热门推荐/近期上新/免费精选)课程列表数据
 	static async getCourseList(data = {}) {
 		try{
-			// if(IndexModel.data.length === IndexModel.total){
-			// 	return
-			// }
-			
 			const res = await indexApi.getCourseList({
-				current : IndexModel.current, 
-				size : IndexModel.size, 
+				current : IndexModel.current,
+				size : IndexModel.size,
 				...data
 			})
-			
-			
-			IndexModel.current+=1
-			IndexModel.total = res.total
-			console.log("records", res.records)
-		
-			IndexModel.data.push(...res.records)
-			console.log(IndexModel.data)
-			return IndexModel.data
+			return res.records
+			console.log("res=>", res)
 		}catch(e){
 			//TODO handle the exception
-			console.log("err",e)
+			console.log("err", e)
 		}
 	}
+
 }
 
 export default IndexModel

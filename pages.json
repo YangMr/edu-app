@@ -50,8 +50,22 @@
             "path" : "pages/category/category",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+                "navigationBarTitleText": "分类",
+                "navigationBarBackgroundColor": "#345DC2",
+				"navigationBarTextStyle":"white",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"float": "right",
+								"fontSize": "18",
+								"background": "rgba(0,0,0,0)",
+								"fontSrc": "/static/icon/iconfont.ttf",
+								"text": "\ue608"
+							}
+						]
+					}
+				}
             }
         }
         ,{

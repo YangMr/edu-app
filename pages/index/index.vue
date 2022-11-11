@@ -4,16 +4,16 @@
 		<!-- 小程序端搜索框 -->
 		<i-search-input></i-search-input>
 		<!-- #endif -->
-		
+
 		<!-- 轮播图 -->
 		<i-new-banner :bannerList="bannerList"></i-new-banner>
-		
+
 		<mescroll-body 
-		ref="mescrollRef" 
+		ref="mescrollRef"
 		@init="mescrollInit" 
 		@down="downCallback" 
 		@up="upCallback" 
-		:down="downOption" 
+		:down="downOption"
 		:up="upOption"
 		>
 			<!-- 课程分类 -->
@@ -28,19 +28,17 @@
 				<!-- 免费精选 -->
 				<swiper-course name="免费精选" word="FREE" :courseData='freeCourseList'></swiper-course>
 				<!-- 付费精品 -->
-				<list-course name="付费精品" word="NICE" :courseData="niceCourseList"></list-course>
+				<list-course name="付费精品" word="NICE" :courseData="payCourseList"></list-course>
 			</view>
 		</mescroll-body>
-		
-		
-		
+
 	</view>
 </template>
 
 <script>
 	// 引入mescroll-mixins.js
 	import MescrollMixin from "@/uni_modules/mescroll-uni/components/mescroll-uni/mescroll-mixins.js";
-	
+
 	// 引入搜索框组件
 	import iSearchInput from "@/components/common/i-search-input.vue"
 	// 引入轮播图组件
@@ -53,7 +51,7 @@
 	import scollCourse from "@/pages/index/components/scroll-course.vue"
 	// 引入付费精品组件
 	import listCourse from "@/pages/index/components/list-course.vue"
-	
+
 	// 引入搜索框模型
 	import SearchModel from "@/model/searchModel.js"
 	// 引入首页模型
@@ -62,28 +60,35 @@
 	import indexApi from "@/api/index.js"
 	export default {
 		// 使用mixin
-		mixins: [MescrollMixin], 
+		mixins: [MescrollMixin],
 		data() {
 			return {
-				bannerList : [],
-				categoryList : [],
-				hotCourseList : [],
-				newCourseList : [],
-				freeCourseList : [],
-				niceCourseList : [],
-				downOption : {
-					offset : 30
+				bannerList: [],
+				categoryList: [],
+				hotCourseList: [],
+				newCourseList: [],
+				freeCourseList: [],
+				payCourseList: [],
+				downOption: {
+					offset: 30
 				},
-				upOption : {}
+				upOption: {
+					textLoading: '亲亲，在查询下页数据中',
+					page: {
+						num: 0, // 当前页码,默认0,回调之前会加1,即callback(page)会从1开始
+						size: 10, // 每页数据的数量
+					},
+					textNoMore: '-- 已加载完所有数据 --', 
+				}
 			}
 		},
-		onNavigationBarButtonTap : function (e) {
+		onNavigationBarButtonTap: function(e) {
 			const index = e.index
-			if(index === 0){
+			if (index === 0) {
 				IndexModel.handleOpenScanCode()
 			}
 		},
-		components : {
+		components: {
 			iSearchInput,
 			iNewBanner,
 			courseCategory,
@@ -96,11 +101,11 @@
 			// 这个方法只在APP端有效
 			SearchModel.handleUpdatePlaceholderText(this)
 			// #endif
-			
+
 			// this.loadData()
 		},
 		methods: {
-			async loadData(){
+			async loadData() {
 				// 调用获取轮播图接口数据方法
 				this.getBannerList()
 				// 调用获取分类接口数据
@@ -111,89 +116,84 @@
 				this.getNewCourseList()
 				// 调用获取免费精选数据
 				this.getFreeCourseList()
-				// 调用获取付费精品数据
-				this.getNiceCourseList()
 			},
-			
+
 			// 获取轮播图接口数据
-			async getBannerList(){
+			async getBannerList() {
 				try {
 					const res = await indexApi.getBanner()
 					this.bannerList = res
-				}catch(e){
+				} catch (e) {
 					console.log("err", e)
 				}
 			},
 			// 获取分类接口数据
-			async getCategoryList(){
-				try{
+			async getCategoryList() {
+				try {
 					const res = await indexApi.getCategory()
 					this.categoryList = res
-				}catch(e){
+				} catch (e) {
 					//TODO handle the exception
-					console.log("err",e)
+					console.log("err", e)
 				}
 			},
 			// 热门推荐、近期上新、免费精选 、付费精品
 			// 获取热门推荐数据
-			async getHotCourseList(){
-				try{
-					const res = await IndexModel.getCourseList({sort : 'hot'})
-					this.hotCourseList = res
-				}catch(e){
+			async getHotCourseList() {
+				try {
+					this.hotCourseList = await IndexModel.getCourseList({
+						sort: "hot"
+					})
+				} catch (e) {
 					//TODO handle the exception
-					console.log("err",e)
+					console.log("err", e)
 				}
 			},
 			// 获取近期上新数据
-			async getNewCourseList(){
-				try{
-					const res = await IndexModel.getCourseList({sort : 'new'})
-					this.newCourseList = res
-				}catch(e){
+			async getNewCourseList() {
+				try {
+					this.newCourseList = await IndexModel.getCourseList({
+						sort: "new"
+					})
+				} catch (e) {
 					//TODO handle the exception
-					console.log("err",e)
+					console.log("err", e)
 				}
 			},
 			// 获取免费精选数据
-			async getFreeCourseList(){
-				try{
-					const res = await IndexModel.getCourseList({isFree : 0})
-					this.freeCourseList = res
-				}catch(e){
+			async getFreeCourseList() {
+				try {
+					this.freeCourseList = await IndexModel.getCourseList({
+						isFree: 0
+					})
+				} catch (e) {
 					//TODO handle the exception
-					console.log("err",e)
+					console.log("err", e)
 				}
 			},
 			// 获取付费精品数据
-			async getNiceCourseList(){
+			async getPayCourseList(page){
 				try{
-					const res = await IndexModel.getCourseList({isFree : 1})
-					this.niceCourseList = res
+					const res = await indexApi.getCourseList({current : page.num, size : page.size, isFree : 1})
+					const currentList = res.records	
+					this.payCourseList = this.payCourseList.concat(currentList)
+					this.mescroll.endBySize(currentList.length, res.total)
 				}catch(e){
 					//TODO handle the exception
 					console.log("err",e)
 				}
 			},
-			/*上拉加载的回调*/
-			async upCallback(page) {
-				// console.log(page)
-				await this.loadData()
-				// 请求成功之后让下拉刷新或者上拉加载消失
-				this.mescroll.endSuccess()
-				/**
-				 * 
-				 *  下拉刷新: 
-				 * 		1. 把页码重置为1 , 并且重新请求数据
-				 * 		2. 当数据请求成功之后, 我们需要隐藏下拉刷新
-				 * 
-				 * 
-				 * 	上拉加载: 
-				 * 		1. 当页面滚动到底部的时候, 我们需要触发上拉加载方法
-				 * 		2. 上拉加载方法触发之后,我们需要在方法内让页码 每上拉一次,  页码 进行加 1
-				 * 		3. 如果当我们当前加载的页码等于 最后一页, 我们提示已经到底底部, 不再重新发送请求
-				 * 
-				 * **/
+			/*下拉刷新与上拉加载的回调*/
+			async upCallback(page){
+				
+				
+				// 判断page.num === 1 , 则说明我们执行的是下拉刷新
+				if(page.num === 1){
+					this.loadData()
+					this.payCourseList = []
+				}
+
+				this.getPayCourseList(page)
 				
 			}
 		}
@@ -201,7 +201,7 @@
 </script>
 
 <style lang="scss">
-.list-container{
-	padding : 0 30rpx;
-}
+	.list-container {
+		padding: 0 30rpx;
+	}
 </style>

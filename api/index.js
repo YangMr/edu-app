@@ -6,6 +6,7 @@ const getBanner = (position = 1) => {
 	return request({url : `/article/api/advert/show/${position}`, method : 'GET'})
 }
 
+
 // 分类接口
 const getCategory = () => {
 	return request({url : '/article/api/category/label/list', method : 'GET'})
