@@ -166,7 +166,7 @@ var _index = _interopRequireDefault(__webpack_require__(/*! @/api/index.js */ 25
   },
   onNavigationBarButtonTap: function onNavigationBarButtonTap(e) {
     if (e.index === 0) {
-      console.log("跳转到搜索页");
+      this.navTo("/pages/search/search");
     }
   },
   methods: {
@@ -178,8 +178,14 @@ var _index = _interopRequireDefault(__webpack_require__(/*! @/api/index.js */ 25
       this.activeIndex = index;
       this.labelList = this.categoryList[index].labelList;
     },
-    handleToSearch: function handleToSearch() {
-      console.log("跳转到搜索页");
+    handleToSearch: function handleToSearch(item) {
+      // const params = {
+      // 	labelId : item.id,
+      // 	labelName : item.name,
+      // 	activeIndex : this.activeIndex
+      // }
+      // this.navTo("/pages/search/search?params=" + JSON.stringify(params))
+      this.navTo("/pages/search/search?labelId=".concat(item.id, "&labelName=").concat(item.name, "&activeIndex=").concat(this.activeIndex));
     } } };exports.default = _default;
 
 /***/ }),

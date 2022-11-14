@@ -2685,7 +2685,6 @@ function normalizeComponent (
     // 页面跳转的方法
     navTo: function navTo(url) {var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       if (!url) return;
-      console.log("456");
 
       if (options.login) {
         uni.navigateTo({
@@ -2703,8 +2702,94 @@ function normalizeComponent (
       uni.navigateBack({
         delta: delta });
 
+    },
+
+    // 设置搜索框的默认值
+    handleSetSearchValue: function handleSetSearchValue(item) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 167:
+/*!**********************************************************************************************!*\
+  !*** /Users/yangling/Desktop/1907/2111C/实训二/edu-app/components/uni-search-bar/i18n/index.js ***!
+  \**********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _en = _interopRequireDefault(__webpack_require__(/*! ./en.json */ 168));
+var _zhHans = _interopRequireDefault(__webpack_require__(/*! ./zh-Hans.json */ 169));
+var _zhHant = _interopRequireDefault(__webpack_require__(/*! ./zh-Hant.json */ 170));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var _default =
+{
+  en: _en.default,
+  'zh-Hans': _zhHans.default,
+  'zh-Hant': _zhHant.default };exports.default = _default;
+
+/***/ }),
+
+/***/ 168:
+/*!*********************************************************************************************!*\
+  !*** /Users/yangling/Desktop/1907/2111C/实训二/edu-app/components/uni-search-bar/i18n/en.json ***!
+  \*********************************************************************************************/
+/*! exports provided: uni-search-bar.cancel, uni-search-bar.placeholder, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("{\"uni-search-bar.cancel\":\"cancel\",\"uni-search-bar.placeholder\":\"Search enter content\"}");
+
+/***/ }),
+
+/***/ 169:
+/*!**************************************************************************************************!*\
+  !*** /Users/yangling/Desktop/1907/2111C/实训二/edu-app/components/uni-search-bar/i18n/zh-Hans.json ***!
+  \**************************************************************************************************/
+/*! exports provided: uni-search-bar.cancel, uni-search-bar.placeholder, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("{\"uni-search-bar.cancel\":\"cancel\",\"uni-search-bar.placeholder\":\"请输入搜索内容\"}");
+
+/***/ }),
+
+/***/ 170:
+/*!**************************************************************************************************!*\
+  !*** /Users/yangling/Desktop/1907/2111C/实训二/edu-app/components/uni-search-bar/i18n/zh-Hant.json ***!
+  \**************************************************************************************************/
+/*! exports provided: uni-search-bar.cancel, uni-search-bar.placeholder, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("{\"uni-search-bar.cancel\":\"cancel\",\"uni-search-bar.placeholder\":\"請輸入搜索內容\"}");
+
+/***/ }),
+
+/***/ 185:
+/*!**************************************************************************!*\
+  !*** /Users/yangling/Desktop/1907/2111C/实训二/edu-app/enum/keyword-key.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.HISTORY_KEY = void 0;var HISTORY_KEY = "history_list";exports.HISTORY_KEY = HISTORY_KEY;
 
 /***/ }),
 
