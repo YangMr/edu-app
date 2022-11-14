@@ -4,13 +4,16 @@
     "pages/category/category",
     "pages/article/article",
     "pages/question/question",
-    "pages/my/my"
+    "pages/my/my",
+    "pages/public/web-view",
+    "pages/search/search"
   ],
   "subPackages": [],
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarBackgroundColor": "#FFFFFF",
-    "backgroundColor": "#F8F9FB"
+    "backgroundColor": "#F8F9FB",
+    "backgroundColorTop": "#FFFFFF"
   },
   "tabBar": {
     "color": "#b0abb3",

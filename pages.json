@@ -104,6 +104,33 @@
             }
             
         }
+        ,{
+            "path" : "pages/search/search",
+            "style" :                                                                                    
+            {
+               "app-plus": {
+               	"titleNView": {
+					//隐藏左侧后退按钮（APP）
+					"autoBackButton": false, 
+               		"searchInput": {
+               			"align": "left",
+						"placeholder": "搜索你想要的内容",
+						"borderRadius":"30rpx",
+						"backgroundColor":"#f0f1f2"
+               		},
+					"buttons": [
+						{
+							"float": "right",
+							"text": "取消",
+							"fontSize":"16",
+							"color":"#2A333B"
+						}
+					]
+               	}
+               }
+            }
+            
+        }
     ],
 	"globalStyle": {
 		// 状态栏与导航栏背景色

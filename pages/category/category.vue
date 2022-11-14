@@ -9,7 +9,7 @@
 		</scroll-view>
 		<scroll-view class="right noScorll" scroll-y="true" >
 			<view class="tag">
-				<view @click="handleToSearch" v-for="(item,index) in labelList" :key="index">
+				<view @click="handleToSearch(item)" v-for="(item,index) in labelList" :key="index">
 					{{item.name}}
 				</view>
 			</view>
@@ -30,9 +30,9 @@
 		onLoad(){
 			this.getCategoryList()
 		},
-		onNavigationBarButtonTap: (e) => {
+		onNavigationBarButtonTap(e){
 			if(e.index === 0) {
-				console.log("跳转到搜索页")
+				this.navTo("/pages/search/search")
 			}
 		},
 		methods: {
@@ -44,8 +44,14 @@
 				this.activeIndex = index
 				this.labelList = this.categoryList[index].labelList
 			},
-			handleToSearch(){
-				console.log("跳转到搜索页")
+			handleToSearch(item){
+				// const params = {
+				// 	labelId : item.id,
+				// 	labelName : item.name,
+				// 	activeIndex : this.activeIndex
+				// }
+				// this.navTo("/pages/search/search?params=" + JSON.stringify(params))
+				this.navTo(`/pages/search/search?labelId=${item.id}&labelName=${item.name}&activeIndex=${this.activeIndex}`)
 			}
 		}
 	}

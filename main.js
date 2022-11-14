@@ -1,7 +1,11 @@
 import App from './App'
+import Vue from 'vue'
+
+// 引入mixins
+import mixins from "@/common/mixins/mixins.js"
+Vue.mixin(mixins)
 
 // #ifndef VUE3
-import Vue from 'vue'
 Vue.config.productionTip = false
 App.mpType = 'app'
 const app = new Vue({

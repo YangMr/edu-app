@@ -2,7 +2,7 @@
 	<view>
 		<!-- #ifdef MP-WEIXIN -->
 		<!-- 小程序端搜索框 -->
-		<i-search-input></i-search-input>
+		<i-search-input @click.native="navTo('/pages/search/search')"></i-search-input>
 		<!-- #endif -->
 
 		<!-- 轮播图 -->
@@ -82,11 +82,16 @@
 				}
 			}
 		},
+		// 点击APP端扫码按钮会触发的方法
 		onNavigationBarButtonTap: function(e) {
 			const index = e.index
 			if (index === 0) {
 				IndexModel.handleOpenScanCode()
 			}
+		},
+		// 点击搜索框会触发的方法
+		onNavigationBarSearchInputClicked() {
+			this.navTo("/pages/search/search")
 		},
 		components: {
 			iSearchInput,
@@ -105,6 +110,9 @@
 			// this.loadData()
 		},
 		methods: {
+			test(){
+				console.log("123")
+			},
 			async loadData() {
 				// 调用获取轮播图接口数据方法
 				this.getBannerList()

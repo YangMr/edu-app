@@ -2,6 +2,12 @@
   "navigationBarTextStyle": "white",
   "navigationBarBackgroundColor": "#345DC2",
   "usingComponents": {
-    "i-search-input": "/components/common/search-input"
+    "mescroll-body": "/uni_modules/mescroll-uni/components/mescroll-body/mescroll-body",
+    "i-search-input": "/components/common/i-search-input",
+    "i-new-banner": "/components/common/i-new-banner",
+    "course-category": "/pages/index/components/course-category",
+    "swiper-course": "/pages/index/components/swiper-course",
+    "scoll-course": "/pages/index/components/scroll-course",
+    "list-course": "/pages/index/components/list-course"
   }
 }
