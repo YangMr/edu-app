@@ -7,13 +7,11 @@
 				<text class="iconfont icon-down1" v-if="!item.active"></text>
 			</view>
 			<view class="item-list" v-show="item.active">
-				<category class="category" v-if="item.isCategory"></category>
-				<view @click="handleChangeSort(item, m)" class="name" v-for="(m,i) in item.list" :key="i">{{m.name}}</view>
+				<category @searchByLabel="searchByLabel" class="category" v-if="item.isCategory" :value="item"></category>
+				<view v-else @click="handleChangeSort(item, m)" class="name" v-for="(m,i) in item.list" :key="i">{{m.name}}</view>
 			</view>
 			<view v-if="item.active" class="cover"></view>
 		</view>
-
-		
 	</view>
 </template>
 
@@ -22,6 +20,10 @@
 	export default {
 		name: "i-down-bar",
 		props: {
+			params : {
+				type : Object,
+				default : () => {}
+			},
 			downBars: {
 				type: Array,
 				default: () => [{
@@ -59,25 +61,41 @@
 		created() {
 			this.downBarList = this.downBars
 		},
+		watch : {
+			params : {
+				handler(newVal, oldVal){
+					if(newVal){
+						const obj = this.downBars[this.downBars.length - 1]
+						obj.name = newVal.labelName
+						obj.id = newVal.labelId
+						obj.activeIndex = newVal.activeIndex
+					}
+					
+				},
+				immediate : true,
+				deep : true
+			}
+		},
 		components: {
 			category
 		},
 		methods : {
 			handleSortView(item){
+				console.log("aaaa")
 				this.downBarList.forEach(i=>{
 					i.active = (item.type === i.type) ?  !item.active : false
 				})
 			},
 			handleChangeSort(item,m){
-
 				if(item.name === m.name){
 					return
 				}
-				
 				item.name = m.name
 				item.id = m.id
-				
 				this.$emit("search", {[item.type] : item.id})
+			},
+			searchByLabel(label){
+				this.$emit("search",  {labelId: label.id, categoryId: label.categoryId})
 			}
 		}
 	}
@@ -88,7 +106,7 @@
 		background-color: #FFFFFF;
 		font-size: 30rpx;
 		line-height: 80rpx;
-
+		z-index : 100;
 		.item-list {
 			background-color: #fff;
 			position: absolute;

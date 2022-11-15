@@ -20,10 +20,13 @@
 		<i-tab-bar v-model.sync="tabIndex" v-if="searched"></i-tab-bar>
 		
 		<!-- down-bar组件 下拉排序组件-->
-		<i-down-bar v-if="searched"></i-down-bar>
+		<!-- <i-down-bar  v-if="searched" :params="params"></i-down-bar> -->
+		<block v-if="searched">
+			<course-list v-show="tabIndex === 0" :params="params" :content="content"></course-list>
+			<article-list v-show="tabIndex === 1" :params="params" :content="content"></article-list>
+			<question-list v-show="tabIndex === 2" :params="params" :content="content"></question-list>
+		</block>
 		
-		
-		<!-- <view v-for="(item,index) in 30" style="height:100rpx;" :key="index"> index ---  {{index}}</view> -->
 	</view>
 </template>
 
@@ -31,6 +34,9 @@
 	import {HISTORY_KEY} from "@/enum/keyword-key.js"
 	import keyword from "@/pages/search/components/keyword.vue"
 	import iTabBar from "@/components/common/i-tab-bar.vue"
+	import courseList from "@/pages/search/components/course-list.vue"
+	import articleList from "@/pages/search/components/article-list.vue"
+	import questionList from "@/pages/search/components/question-list.vue"
 	export default {
 		data() {
 			return {
@@ -42,7 +48,7 @@
 				searched : false,
 				
 				// 设置默认选中的tab
-				tabIndex : 1,
+				tabIndex : 0,
 				
 				
 				// #ifdef APP-PLUS
@@ -52,7 +58,10 @@
 		},
 		components : {
 			keyword,
-			iTabBar
+			iTabBar,
+			courseList,
+			articleList,
+			questionList
 		},
 		onLoad(options) {
 
@@ -88,7 +97,7 @@
 					this.params = options
 					
 					// 调用设置搜索框值的方法
-					this.handleSetSearchValue(options.labelName)
+					this.handleSetSearchValue()
 					
 					// 调用搜索查询的方法的
 					this.handleSearch({value : options.labelName})
@@ -106,6 +115,8 @@
 
 			// 搜索框查询方法
 			handleSearch(obj) {
+				console.log("进行查询")
+				
 				// 获取输入框输入的内容 -- h5&app端可以 小程序端需要重新处理
 				this.content = obj && obj.value ? obj.value : this.content
 				
@@ -118,7 +129,6 @@
 			
 			// 存储搜索的历史记录
 			handleSetLocalHistoryData(){
-				console.log("----")
 				uni.getStorage({
 					key: HISTORY_KEY,
 					// 本地已经存储过了

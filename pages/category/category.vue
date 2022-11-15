@@ -2,7 +2,7 @@
 	<view class="category-box">
 		<scroll-view class="left noScorll" scroll-y="true" >
 			<view class="title column center">
-				<view  @click="handleSelectCategory(index)" :class="{active : index === activeIndex}" v-for="(item,index) in categoryList" :key="index">
+				<view  @click.stop="handleSelectCategory(index, item)" :class="{active : index === activeIndex}" v-for="(item,index) in categoryList" :key="index">
 					{{item.name}}
 				</view>
 			</view>
@@ -20,6 +20,12 @@
 <script>
 	import indexApi from "@/api/index.js"
 	export default {
+		props : {
+			value : {
+				type : Object,
+				default : () => {}
+			}
+		},
 		data() {
 			return {
 				categoryList : [],
@@ -27,7 +33,7 @@
 				labelList : []
 			}
 		},
-		onLoad(){
+		mounted(){
 			this.getCategoryList()
 		},
 		onNavigationBarButtonTap(e){
@@ -39,18 +45,59 @@
 			async getCategoryList(){
 				this.categoryList = await indexApi.getCategory()
 				this.labelList = this.categoryList[this.activeIndex].labelList
+				
+				if(this.value){
+					this.categoryList.forEach(item=>{
+						item.labelList.unshift({id : null, name : "不限", cname : item.name,
+categoryId: item.id})
+					})
+					this.categoryList.unshift({id : null, name : "全部分类"})
+					
+				
+					this.activeIndex = this.value.activeIndex > -1 ? parseFloat(this.value.activeIndex) + 1 : this.activeIndex
+				
+					
+				}
+				
+				this.handleSelectCategory(this.activeIndex)
 			},
-			handleSelectCategory(index){
+			searchPageChangeLabel(item){
+
+				console.log("item=>", item)
+				console.log("value=>", this.value)
+				if(this.value.name !== item.name && this.value.name !== item.cname){
+					console.log(456)
+					// 赋值给搜索面显示名称，如果有分类名就取分类名，没有就取标签名
+					this.value.name = item.cname || item.name
+					// 标签id
+					this.value.id = item.id || null
+					// 分类id (点击`不限`是分类id，)
+					this.value.categoryId = item.categoryId || null
+		
+					// 解决父组件，搜索新数据
+					this.$emit('searchByLabel', this.value)
+				}
+				this.value.active = false
+			},
+			handleSelectCategory(index, item){
+				
+				if(item && item.name === "全部分类"){
+					this.searchPageChangeLabel(item)
+					return
+				}
+				
 				this.activeIndex = index
 				this.labelList = this.categoryList[index].labelList
 			},
 			handleToSearch(item){
-				// const params = {
-				// 	labelId : item.id,
-				// 	labelName : item.name,
-				// 	activeIndex : this.activeIndex
-				// }
-				// this.navTo("/pages/search/search?params=" + JSON.stringify(params))
+				
+				if(this.value){
+
+					this.searchPageChangeLabel(item)
+					return
+					
+				}
+				
 				this.navTo(`/pages/search/search?labelId=${item.id}&labelName=${item.name}&activeIndex=${this.activeIndex}`)
 			}
 		}
