@@ -15,12 +15,22 @@
 		
 		<!-- 热门搜索与历史搜索 -->
 		<keyword @handleSearch="handleSearch" v-if="!searched"></keyword>
+		
+		<!-- tabbar组件 标签导航栏组件 -->
+		<i-tab-bar v-model.sync="tabIndex" v-if="searched"></i-tab-bar>
+		
+		<!-- down-bar组件 下拉排序组件-->
+		<i-down-bar v-if="searched"></i-down-bar>
+		
+		
+		<!-- <view v-for="(item,index) in 30" style="height:100rpx;" :key="index"> index ---  {{index}}</view> -->
 	</view>
 </template>
 
 <script>
 	import {HISTORY_KEY} from "@/enum/keyword-key.js"
 	import keyword from "@/pages/search/components/keyword.vue"
+	import iTabBar from "@/components/common/i-tab-bar.vue"
 	export default {
 		data() {
 			return {
@@ -30,13 +40,19 @@
 				focus : false,
 				
 				searched : false,
+				
+				// 设置默认选中的tab
+				tabIndex : 1,
+				
+				
 				// #ifdef APP-PLUS
 				currentWebview: null,
 				// #endif
 			}
 		},
 		components : {
-			keyword
+			keyword,
+			iTabBar
 		},
 		onLoad(options) {
 
@@ -128,7 +144,7 @@
 	}
 
 	.search-container {
-		width: 750rpx;
+		// width: 750rpx;
 		/* 全屏，不然后面`下拉筛选粘组件`粘顶会失效 */
 		margin: 0;
 		padding: 0;
