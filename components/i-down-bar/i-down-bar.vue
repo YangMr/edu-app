@@ -1,14 +1,14 @@
 <template>
 	<view class="down-bar row sticky-box">
 		<view class="one" @click="handleSortView(item)" v-for="(item,index) in downBarList" :key="index">
-			<view class="center" :class="{active : item.active || (item.id)}">
+			<view class="center" :class="{active : item.active || (item.id || item.id === 0)}">
 				<text>{{item.name}}</text>
 				<text class="iconfont icon-up" v-if="item.active"></text>
 				<text class="iconfont icon-down1" v-if="!item.active"></text>
 			</view>
 			<view class="item-list" v-show="item.active">
 				<category @searchByLabel="searchByLabel" class="category" v-if="item.isCategory" :value="item"></category>
-				<view v-else @click="handleChangeSort(item, m)" class="name" v-for="(m,i) in item.list" :key="i">{{m.name}}</view>
+				<view :class="{active :  m.name === item.name}" v-else @click="handleChangeSort(item, m)" class="name" v-for="(m,i) in item.list" :key="i">{{m.name}}</view>
 			</view>
 			<view v-if="item.active" class="cover"></view>
 		</view>
@@ -81,7 +81,6 @@
 		},
 		methods : {
 			handleSortView(item){
-				console.log("aaaa")
 				this.downBarList.forEach(i=>{
 					i.active = (item.type === i.type) ?  !item.active : false
 				})
@@ -115,7 +114,8 @@
 			z-index: 100;
 
 			.name {
-				padding-left: 108rpx;
+				// padding-left: 108rpx;
+				padding-left: 45rpx;
 			}
 
 			.category {
