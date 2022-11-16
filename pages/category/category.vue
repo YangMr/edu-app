@@ -9,7 +9,7 @@
 		</scroll-view>
 		<scroll-view class="right noScorll" scroll-y="true" >
 			<view class="tag">
-				<view @click="handleToSearch(item)" v-for="(item,index) in labelList" :key="index">
+				<view @click.stop="handleToSearch(item)" v-for="(item,index) in labelList" :key="index">
 					{{item.name}}
 				</view>
 			</view>
@@ -90,6 +90,7 @@ categoryId: item.id})
 				if(this.value){
 
 					this.searchPageChangeLabel(item)
+					this.value.active = false
 					return
 					
 				}

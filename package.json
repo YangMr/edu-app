@@ -1,0 +1,23 @@
+{
+  "name": "edu-app",
+  "version": "1.0.0",
+  "description": "## 一、创建项目",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YangMr/edu-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YangMr/edu-app/issues"
+  },
+  "homepage": "https://github.com/YangMr/edu-app#readme",
+  "dependencies": {
+    "dayjs": "^1.11.6"
+  }
+}

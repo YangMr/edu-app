@@ -73,24 +73,39 @@
 				searchData : {
 					content : '', // 要查询的内容
 					current : 1, // 分页的页码
-					size : 10   // 分页的条数
+					size : 10,   // 分页的条数
+					sort : null, // 排序
+					isFree : null, // 0 付费 1免费 null 全部课程
+					labelId : null,  // 标签id
+					categoryId : null  // 类别id
 				}
 			}
+		},
+		mounted() {
+			// console.log("params", this.params)
+			this.params && Object.keys(this.searchData).forEach(key=>{
+				// console.log("key=>", key)
+				this.searchData[key] = this.params[key] || null
+			})
+			
+			console.log("search=>",this.searchData)
 		},
 		methods: {
 			// 搜索
 			search(data) {
-				console.log("data=>", data)
-				console.log("content", this.content)
-				console.log("course")
+				
+				if(data){
+					Object.assign(this.searchData, data)
+				}
 				this.mescroll.resetUpScroll(true)
 			},
 			/*上拉加载的回调: 其中page.num:当前页 从1开始, page.size:每页数据条数,默认10 */
 			async upCallback(page) {
-				console.log("page=>", page)
+				this.searchData.content = this.content && this.content.trim() || ""
+				this.searchData.current = page.num
+				this.searchData.size = page.size
 				
 				const res = await indexApi.getCourseList(this.searchData)	
-				console.log("res=>", res)
 				const list = res.records
 					
 				if(page.num === 1){
@@ -99,8 +114,7 @@
 				}	
 				
 				this.courseList = this.courseList.concat(list)
-				// this.i: 每个tab页的专属下标
-				// this.index: 当前tab的下标
+
 		
 				this.mescroll.endBySize(list.length, res.total);
 			},

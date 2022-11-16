@@ -92,6 +92,8 @@
 				item.name = m.name
 				item.id = m.id
 				this.$emit("search", {[item.type] : item.id})
+				
+				
 			},
 			searchByLabel(label){
 				this.$emit("search",  {labelId: label.id, categoryId: label.categoryId})

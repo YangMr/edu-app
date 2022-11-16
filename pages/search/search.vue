@@ -19,14 +19,6 @@
 		<!-- tabbar组件 标签导航栏组件 -->
 		<i-tab-bar v-model.sync="tabIndex" v-if="searched"></i-tab-bar>
 		
-		<!-- down-bar组件 下拉排序组件-->
-		<!-- <i-down-bar  v-if="searched" :params="params"></i-down-bar> -->
-		
-		<!-- <block v-if="searched">
-			<course-list v-show="tabIndex === 0" :params="params" :content="content"></course-list>
-			<article-list v-show="tabIndex === 1" :params="params" :content="content"></article-list>
-			<question-list v-show="tabIndex === 2" :params="params" :content="content"></question-list>
-		</block> -->
 		
 		<block v-if="searched">
 			<course-list ref="mescrollItem0" :i="0" :index="tabIndex" :params="params" :content="content"></course-list>
@@ -111,7 +103,7 @@
 					this.handleSetSearchValue()
 					
 					// 调用搜索查询的方法的
-					this.handleSearch({value : options.labelName})
+					this.handleSearch()
 				} else {
 					// #ifdef APP-PLUS
 					// 没有参数,则需要让搜索框获取到焦点
@@ -130,8 +122,7 @@
 				
 				// 获取输入框输入的内容 -- h5&app端可以 小程序端需要重新处理
 				this.content = obj && obj.value ? obj.value : this.content
-				console.log("进行查询")
-				console.log(this.content)
+
 				
 				
 				// 让历史记录与热门搜索的内容进行隐藏
