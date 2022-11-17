@@ -1,5 +1,5 @@
 <template>
-	<view class="course-item" :class="{column : isColumn}">
+	<view @click="navTo(`/pages/course/course-details?id=${item.id}`)" class="course-item" :class="{column : isColumn}">
 		<view class="item-left">
 			<image class="course-cover"
 				:src="item.mainImage">

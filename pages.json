@@ -129,9 +129,32 @@
                	}
                }
             }
-            
         }
-    ],
+		,{
+		    "path" : "pages/course/course-details",
+		    "style" :                                                                                    
+		    {
+				"navigationBarBackgroundColor": "#345DC2",
+		        "navigationBarTextStyle": "white",
+				"app-plus": {
+					"bounce": "none", // 禁止app回弹效果
+					"scrollIndicator": "none", // 隐藏页面滚动条（APP）
+					"titleNView": {
+						"type": "transparent"
+						// #ifdef APP-PLUS
+						,"buttons": [
+							{
+								"float": "right",
+								"type": "share"
+							}
+						]
+						// #endif
+					}
+				}
+		    }
+		    
+		}
+	],
 	"globalStyle": {
 		// 状态栏与导航栏背景色
 		"navigationBarTextStyle": "black",
