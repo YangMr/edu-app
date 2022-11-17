@@ -134,6 +134,7 @@
 		    "path" : "pages/course/course-details",
 		    "style" :                                                                                    
 		    {
+				"onReachBottomDistance": 0,
 				"navigationBarBackgroundColor": "#345DC2",
 		        "navigationBarTextStyle": "white",
 				"app-plus": {
