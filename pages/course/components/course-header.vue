@@ -6,7 +6,8 @@
 		
 		<!-- 课程信息 -->
 		<view class="header-info">
-			<view class="price-info">
+			<view class="is-free" v-if="item.isFree === 1">免费</view>
+			<view class="price-info" v-else>
 				<text v-if="item.priceDiscount">￥{{item.priceDiscount}}</text>
 				<text :class="{price : item.priceDiscount}">￥{{item.priceOriginal}}</text>
 				<text v-if="item.priceDiscount" class="preferential">优惠价</text>
@@ -43,6 +44,12 @@ export default {
 </script>
 
 <style lang="scss">
+.is-free{
+	font-size:  46rpx;
+	font-weight: bold;
+	color : $i-text-color-red;
+	margin-left: 4rpx;
+}	
 .course-header{
 	
 	.cover{
@@ -65,7 +72,7 @@ export default {
 				&:first-child{
 					font-size:  46rpx;
 					font-weight: bold;
-					color : $i-text-color-red;;
+					color : $i-text-color-red;
 				}
 			}
 			

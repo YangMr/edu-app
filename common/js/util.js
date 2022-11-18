@@ -2,6 +2,16 @@ import dayjs from "dayjs"
 import 'dayjs/locale/zh-cn' // 导入本地化语言
 dayjs.locale('zh-cn') // 使用本地化语言
 
+// 封装toast提示
+export const msg = (title = '', param={}) => {
+	if(!title) return;
+	uni.showToast({
+		title,
+		duration: param.duration || 1500,
+		mask: param.mask || false,
+		icon: param.icon || 'none'
+	});
+}
 
 // 节流方法
 let _throttleRunning = false // 用来检测有没有开启节流

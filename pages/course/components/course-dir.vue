@@ -4,13 +4,13 @@
 			<view class="chapters text-ellipsis">
 				<text>第{{index + 1}}章 {{item.name}}</text>
 			</view>
-			<view class="sections row" v-for="(sections,i) in item.sectionList" :key="i">
+			<view @click="handleCousePlay(sections)" class="sections row" v-for="(sections,i) in item.sectionList" :key="i">
 				<text class="iconfont icon-roundrightfill"></text>
 				<view class="row">
 					<text>{{index +1}}-{{i+1}}</text>
 					<text class="title text-ellipsis">{{sections.name}}</text>
 				</view>
-				<text v-if="sections.isFree === 1" class="see">试看</text>
+				<text v-if="sections.isFree === 0" class="see">试看</text>
 			</view>
 		</block>
 		
@@ -20,6 +20,10 @@
 <script>
 	export default {
 		props: {
+			isBuy : {
+				type : Boolean,
+				default : false
+			},
 			chapterList: {
 				type: Array,
 				default: () => ([{
@@ -58,6 +62,17 @@
 						}
 					]
 				}])
+			}
+		},
+		methods : {
+			handleCousePlay(data){
+				// 当 课程需要购买 或者 当前课程没有购买的时候
+				if(data.isFree === 0 || this.isBuy){
+					this.$emit("playVideo")
+				}else{
+					this.$util.msg('请先购买')
+				}
+				
 			}
 		}
 	}
