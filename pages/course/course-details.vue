@@ -109,13 +109,16 @@ export default {
 	methods : {
 		// 点击试看触发的方法
 		handlePlayVideo(data){
+			this.activeObject.chapterIndex = data.activeObject.chapterIndex
+			this.activeObject.sectionsIndex = data.activeObject.sectionIndex
+			
+			
 			if(this.isBuy){
-				this.navTo(`/pages/course/course-play?id=${this.courseId}`)
+				this.navTo(`/pages/course/course-play?id=${this.courseId}&chapterIndex=${this.activeObject.chapterIndex}&sectionsIndex=${this.activeObject.sectionsIndex}`)
 				return 
 			}
 
-			this.activeObject.chapterIndex = data.activeObject.chapterIndex
-			this.activeObject.sectionsIndex = data.activeObject.sectionIndex
+			
 			
 			console.log("this.activeObject",this.activeObject)
 			this.videoUrl = data.data.videoUrl

@@ -27,10 +27,12 @@
 <script>
 	export default {
 		props: {
+			// 课程是否购买
 			isBuy : {
 				type : Boolean,
 				default : false
 			},
+			// 控制章节选中高亮效果
 			activeObject : {
 				type : Object,
 				default : () => ({
@@ -38,6 +40,7 @@
 					sectionsIndex : -1
 				})
 			},
+			// 章节列表数据
 			chapterList: {
 				type: Array,
 				default: () => ([{

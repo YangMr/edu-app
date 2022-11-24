@@ -24,12 +24,17 @@ const findCourseStatus = (id) => {
 	return request({url : `/course/course/is-buy/${id}`, method : 'GET'})
 }
 
-// 导出封装的api
+//  通过课程id获取已经购买课程视频列表
+const getCourseByList = (id) => {
+	return request({url : `/course/course/buy/list/${id}` , method : 'GET'})
+}
 
+// 导出封装的api
 export default {
 	getCourseDetail,
 	getChapterList,
 	getCommentList,
 	getGroupList,
-	findCourseStatus
+	findCourseStatus,
+	getCourseByList
 }
