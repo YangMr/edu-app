@@ -12,7 +12,7 @@
 					<scroll-view upper-threshold="0" @scrolltoupper="scrolltoupper"  class="scroll-view" :scroll-y="enableScroll" >
 						<view class="details-info">
 							<course-info :detailUrls="courseDetail.detailUrls" v-if="index === 0"></course-info>
-							<course-dir @playVideo="handlePlayVideo" :isBuy="isBuy" :chapterList="chapterList" v-if="index === 1"></course-dir>
+							<course-dir :activeObject="activeObject" @playVideo="handlePlayVideo" :isBuy="isBuy" :chapterList="chapterList" v-if="index === 1"></course-dir>
 							<course-comment :commentList="commentList" v-if="index === 2"></course-comment>
 							<course-group :groupList="groupList" v-if="index === 3"></course-group>
 						</view>
@@ -25,7 +25,14 @@
 		
 		
 		<!-- 视频播放 -->
-		<view @click="coursePlayStatus = false" v-if="coursePlayStatus" class="mask" style="color : #fff; text-align: center; line-height: 300rpx;">视频播放</view>
+		<!-- <view @click="coursePlayStatus = false" v-if="coursePlayStatus" class="mask" style="color : #fff; text-align: center; line-height: 300rpx;">视频播放</view> -->
+		<view @click="handleCloseVideo" @playVideo="handlePlayVideo" v-if="videoUrl" class="mask video-box">
+			<view class="name">
+				<text>免费试看</text>
+				<text class="iconfont icon-close" @click.stop="handleCloseVideo"></text>
+			</view>
+			<video id="myVideo" class="video" :src="videoUrl" ></video>
+		</view>
 	</view>
 </template>
 
@@ -53,8 +60,13 @@ export default {
 			chapterList : [],  // 保存章节数据
 			commentList : [], // 保存评价数据
 			groupList : [],  // 保存套餐数据
-			isBuy : false,  // 保存的是课程是否已购买
-			coursePlayStatus : false
+			isBuy : true,  // 保存的是课程是否已购买 false 未购买 true已购买
+			videoUrl : '', // 试看视频的播放地址
+			videoContext : null, // 视频播放方法实例对象
+			activeObject : {
+				chapterIndex : -1,
+				sectionsIndex : -1
+			}
 		}
 	},
 	
@@ -90,12 +102,32 @@ export default {
 			this.detailTop = data.top
 		}).exec();
 		
+		// 初始化video实例对象
+		this.videoContext = uni.createVideoContext('myVideo')
 		
 	},
 	methods : {
 		// 点击试看触发的方法
-		handlePlayVideo(){
-			this.coursePlayStatus = true
+		handlePlayVideo(data){
+			if(this.isBuy){
+				this.navTo(`/pages/course/course-play?id=${this.courseId}`)
+				return 
+			}
+
+			this.activeObject.chapterIndex = data.activeObject.chapterIndex
+			this.activeObject.sectionsIndex = data.activeObject.sectionIndex
+			
+			console.log("this.activeObject",this.activeObject)
+			this.videoUrl = data.data.videoUrl
+			this.$nextTick(()=>{
+				this.videoContext.play()
+			})
+			
+		},
+		// 关闭试看弹窗
+		handleCloseVideo(){
+			this.videoContext.stop()
+			this.videoUrl = null
 		},
 		
 		// 立即购买按钮方法
@@ -103,7 +135,7 @@ export default {
 			// 如果是课程已购买或者免费 , 则跳转到课程播放页面
 			if(this.isBuy || this.courseDetail.isFree === 1){
 				// 跳转已购买视频播放页(后面创建页面)
-				this.navTo('/pages/course/course-play?id' + this.courseId )
+				this.navTo('/pages/course/course-play?id=' + this.courseId )
 			}else{ // 课程未购买, 跳转到课程购买页面
 				// this.navTo("")
 			}
@@ -234,4 +266,35 @@ export default {
 		padding-bottom:180rpx;
 	}
 }
+
+.video-box{
+	z-index : 100;
+	text-align: center;
+	
+	.name{
+		color : #fff;
+		position: relative;
+		top : 380rpx;
+		font-size: 38rpx;
+		font-weight: bold;
+		
+		.icon-close{
+			margin-left: 15rpx;
+		}
+	}
+	
+	
+	
+	.video{
+		width: 750rpx;
+		height: 420rpx;
+		position: absolute;
+		left : 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+	}
+}
+
+
+
 </style>

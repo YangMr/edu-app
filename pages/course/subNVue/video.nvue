@@ -1,0 +1,13 @@
+<template>
+	<text>视频播放器</text>
+</template>
+
+<script>
+	export default {
+		
+	}
+</script>
+
+<style>
+
+</style>
