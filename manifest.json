@@ -53,7 +53,8 @@
 		"devServer": {
 			"proxy" : {
 				"/api" : {
-					"target" : "http://m.mengxuegu.com/api",
+					// "target" : "http://m.mengxuegu.com/api",
+					"target" : "https://mock.mengxuegu.com/mock/5fdc6ffb5b350029c77c973a/mxg-education-app",
 					"changeOrigin" : true,
 					"pathRewrite" : {
 						"^/api" : ""

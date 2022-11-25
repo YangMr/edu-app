@@ -14,7 +14,7 @@
 					<text>￥{{group.groupPrice}}</text>
 					<text>￥{{group.totalPrice}}</text>
 				</view>
-				<text>购买套餐</text>
+				<text @click="handleToConfirmBuy">购买套餐</text>
 			</view>
 		</view>
 	</view>
@@ -34,6 +34,13 @@ export default {
 	},
 	components : {
 		iCourseItem
+	},
+	methods : {
+		handleToConfirmBuy(){
+			// encodeURIComponent   将特殊字符编码
+			// decodeURIComponent   将特殊字符进行解码
+			this.navTo("/pages/order/confirm-buy?groupList=" + encodeURIComponent(JSON.stringify(this.groupList)))
+		}
 	}
 }
 </script>

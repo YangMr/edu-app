@@ -29,6 +29,11 @@ const getCourseByList = (id) => {
 	return request({url : `/course/course/buy/list/${id}` , method : 'GET'})
 }
 
+// 提交课程评价接口
+const submitCourseComment = (data)=> {
+	return request({url : '/course/comment', method : 'POST', data})
+}
+
 // 导出封装的api
 export default {
 	getCourseDetail,
@@ -36,5 +41,6 @@ export default {
 	getCommentList,
 	getGroupList,
 	findCourseStatus,
-	getCourseByList
+	getCourseByList,
+	submitCourseComment
 }

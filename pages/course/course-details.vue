@@ -60,7 +60,7 @@ export default {
 			chapterList : [],  // 保存章节数据
 			commentList : [], // 保存评价数据
 			groupList : [],  // 保存套餐数据
-			isBuy : true,  // 保存的是课程是否已购买 false 未购买 true已购买
+			isBuy : false,  // 保存的是课程是否已购买 false 未购买 true已购买
 			videoUrl : '', // 试看视频的播放地址
 			videoContext : null, // 视频播放方法实例对象
 			activeObject : {
@@ -140,7 +140,7 @@ export default {
 				// 跳转已购买视频播放页(后面创建页面)
 				this.navTo('/pages/course/course-play?id=' + this.courseId )
 			}else{ // 课程未购买, 跳转到课程购买页面
-				// this.navTo("")
+				this.navTo("/pages/order/confirm-buy?course=" + encodeURIComponent(JSON.stringify(this.courseDetail)) )
 			}
 		},
 		

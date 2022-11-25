@@ -3,6 +3,7 @@
 		<!-- #ifndef APP-PLUS -->
 		<video id="myVideo" class="video-box" :src="videoSrc" :poster="videoPoster"></video>
 		<!-- #endif -->
+	
 		
 		<!-- 课程信息 -->
 		<view class="course-info space-between">
@@ -24,11 +25,14 @@
 			</view>
 			<!-- #endif -->
 			
-			<view class="one center column">
+			<view class="one center column" @click="handleOpenComment">
 				<text class="iconfont  icon-edit"></text>
 				<text>评价</text>
 			</view>
 		</view>
+		
+		<!-- 课程评价 -->
+		<i-comment  ref="comment" @submitComment="submitComment"></i-comment>
 	</view>
 </template>
 
@@ -58,7 +62,11 @@
 					sectionsIndex : 0
 				},
 				// 保存的课程信息
-				course : {}
+				course : {},
+				comment : {
+					content : '',
+					score : 0
+				}
 			}
 		},
 		onLoad(options) {
@@ -81,6 +89,45 @@
 			courseDir
 		},
 		methods: {
+			// 提交评论数据
+			async submitComment(data){
+				// 开启loading
+				uni.showLoading({
+					title : '提交中...',
+					mask : true
+				})
+				
+				console.log("this.id=>", this.id)
+				
+				// 将评论的课程id赋值给data
+				data.courseId = this.id
+				
+				// 调用接口
+				try{
+					const response = await courseDetailApi.submitCourseComment(data)
+			
+					
+					//关闭loading
+					uni.hideLoading()
+					
+					// 关闭评论弹窗
+					this.$refs["comment"].show()
+					
+					// 提示评论成功
+					this.$util.msg("评论成功")
+				}catch(e){
+					//TODO handle the exception
+					// 提示评论成功
+					this.$util.msg("评论失败")
+				}
+				
+			},
+			
+			// 打开评价
+			handleOpenComment(){
+				this.$refs['comment'].show()
+			},
+			
 			// 切换视频播放
 			handleChangeVideo(data){
 				this.activeObject.chapterIndex = data.activeObject.chapterIndex

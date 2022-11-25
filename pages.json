@@ -176,6 +176,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/order/confirm-buy",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "确认购买",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		// 状态栏与导航栏背景色
