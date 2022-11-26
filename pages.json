@@ -185,6 +185,33 @@
             }
             
         }
+        ,{
+            "path" : "pages/auth/login",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom",
+				"enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/public/xieyi",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "用户服务协议 ",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/public/yinsi",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "隐私权政策 ",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		// 状态栏与导航栏背景色
