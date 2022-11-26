@@ -17,7 +17,7 @@
 				<text class="title">验证码</text>
 				<view class="row">
 					<input v-model="code" type="input" maxlength="11" placeholder="请输入手机验证码" placeholder-style="color: #909399" />
-					<i-code :mobile="mobile"></i-code>
+					<i-code :mobile="mobile" :templateCode="templateCode"></i-code>
 				</view>
 			</view>
 			
@@ -38,6 +38,8 @@
 		</view>
 		<!-- #endif -->
 		
+		{{$store.state.count}}
+		
 		<view class="agreement center">
 			<text class="iconfont  icon-roundcheckfill" :class="{active : agreement}" @click="handleCheckAgreement"></text>
 			<text @click="handleCheckAgreement">请认真阅读并同意</text>
@@ -48,6 +50,7 @@
 </template>
 
 <script>
+	import systemApi from "@/api/system.js"
 	/**
 	 * 1. 创建登录页面
 	 * 2. 取消 h5 app 小程序 三端的自定义导航栏
@@ -63,23 +66,79 @@
 				// loading加载
 				loading : false,
 				// 是否同意协议
-				agreement : true
+				agreement : true,
+				// 短信模版
+				templateCode : 'MSM_1999123123'
 			}
 		},
 		methods: {
 			// 登录
-			handleUserLogin(){
+			async handleUserLogin(){
+				
+				// 检测用户是否同意安全协议
+				if(!this.agreement){
+					this.$util.msg("请阅读并同意用户服务及隐私协议")
+					return
+				}
+				
+				// 检测手机号格式是否正确
+				if(!this.$util.checkStr(this.mobile, 'mobile')){
+					this.$util.msg("请输入有效手机号码")
+					return
+				}
+				
+				// 检测验证码是否正确
+				if(!this.$util.checkStr(this.code, 'mobileCode')){
+					this.$util.msg("验证码输入错误")
+					return
+				}
+				
+				// 开启loading
 				this.loading = true
 				
-				console.log("user:=>", this.mobile, this.code)
+				// 提示登录中
+				uni.showLoading({
+					title : '登录中',
+					mask : true
+				})
 				
-				setTimeout(()=>{
+				// 调用登录接口
+				try{
+					// 发送请求
+					const data = {mobile : this.mobile, code : this.code}
+					const response = await systemApi.login(data)
+
+					// 隐藏loading
 					this.loading = false
-				},2000)
+					uni.hideLoading()
+					
+					// 登录成功之后调用当前方法将用户信息以及token存储到vuex
+					this.loginSuccessCallBack(response)
+				}catch(e){
+					//TODO handle the exception
+					// 隐藏loading
+					this.loading = false
+					uni.hideLoading()
+				}
+				
 			},
 			// 设置是否同意隐私协议
 			handleCheckAgreement(){
 				this.agreement = !this.agreement
+			},
+			// 当前方法将用户信息以及token存储到vuex
+			loginSuccessCallBack(data){
+
+				// 提示用户登录成功
+				this.$util.msg("登录成功")
+				
+				// 将用户信息以及token存储到vuex
+				this.$store.commit('setToken', data)
+				
+				// 返回到上一页
+				setTimeout(()=>{
+					this.navBack()
+				},500)
 			}
 		}
 	}
