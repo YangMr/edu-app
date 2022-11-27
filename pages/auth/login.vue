@@ -1,6 +1,6 @@
 <template>
 	<view class="login">
-		<text class="iconfont icon-close back-btn"></text>
+		<text @click="navBack()" class="iconfont icon-close back-btn"></text>
 		<view class="left-top-sign">LOGIN</view>
 		<view class="welcome">欢迎回来!</view>
 

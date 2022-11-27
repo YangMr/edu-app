@@ -5,14 +5,24 @@ export default {
 		}
 	},
 	methods : {
+		// 部分页面鉴权
+		// 所有页面鉴权 
+		// 部分页面鉴权
+		
 		// 页面跳转的方法
+		// options ==  {login : data.login}
 		navTo(url, options = {}){
 			if(!url) return
 			
-			if(options.login){
+			// 判断当前页面跳转的时候 需不需要检测有没有 登录, 如果options.login 的
+			// 值为true的情况下,那么则需要获取vuex中登录的状态
+			// 如果vuex中hasLogin 的值为false的话,则表示用户没有登录,那么这个
+			// 时候,我们则跳转到登录页
+			if(options.login && !this.$store.getters.hasLogin){
 				uni.navigateTo({
 					url : '/pages/auth/login'
 				})
+				return
 			}
 			
 			uni.navigateTo({

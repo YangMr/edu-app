@@ -14,15 +14,18 @@
 				<text class="iconfont icon-right"></text>
 			</view>
 		</view>
+		
+		<i-list :list="myListBar"></i-list>
 	</view>
 </template>
 
 <script>
 	import {mapState, mapGetters} from "vuex"
+	import myListBar from "@/config/my-list-bar.js"
 	export default {
 		data() {
 			return {
-				
+				myListBar : myListBar()
 			}
 		},
 		computed : {
