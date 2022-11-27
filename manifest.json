@@ -48,21 +48,24 @@
     },
     /* 快应用特有相关 */
     "quickapp" : {},
-	/* H5相关 */
-	"h5": {
-		"devServer": {
-			"proxy" : {
-				"/api" : {
-					"target" : "http://m.mengxuegu.com/api",
-					// "target" : "https://mock.mengxuegu.com/mock/5fdc6ffb5b350029c77c973a/mxg-education-app",
-					"changeOrigin" : true,
-					"pathRewrite" : {
-						"^/api" : ""
-					}
-				}
-			}
-		}
-	},
+    /* H5相关 */
+    "h5" : {
+        "devServer" : {
+            "proxy" : {
+                "/api" : {
+                    "target" : "http://m.mengxuegu.com/api",
+                    // "target" : "https://mock.mengxuegu.com/mock/5fdc6ffb5b350029c77c973a/mxg-education-app",
+                    "changeOrigin" : true,
+                    "pathRewrite" : {
+                        "^/api" : ""
+                    }
+                }
+            }
+        },
+        "sdkConfigs" : {
+            "maps" : {}
+        }
+    },
     /* 小程序特有相关 */
     "mp-weixin" : {
         "appid" : "wx8c8b3bb4e09338eb",

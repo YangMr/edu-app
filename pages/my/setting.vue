@@ -20,16 +20,21 @@
 		},
 		methods: {
 			// 允许非WIFI网络播放
-			setWifiPlay(){
-				alert("1")
+			setWifiPlay(data){
+				this.saveStorage(data, "wifi-play")
 			},
 			// 允许非WIFI网络缓存
-			setWifiDownload(){
-				alert("2")
+			setWifiDownload(data){
+				this.saveStorage(data, "wifi-download")
 			},
 			// 视频自动连续播放
-			setAutoPlay(){
-				alert("3")
+			setAutoPlay(data){
+				this.saveStorage(data, "auto-play")
+			},
+			saveStorage(data, key){
+				const checked = !data.checked
+				this.$set(data, "checked" , checked)
+				uni.setStorageSync(key, checked)
 			},
 			// 清除应用缓存
 			clearStorage(data){
