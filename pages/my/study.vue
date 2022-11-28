@@ -11,6 +11,9 @@
 				
 			}
 		},
+		onLoad() {
+			this.handleToLogin()
+		},
 		methods: {
 			
 		}

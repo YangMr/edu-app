@@ -1,7 +1,7 @@
 <template>
 	<view class="my-page">
 		<view class="my-header">
-			<view  @click="hasLogin ? navTo('/pages/my/user') : navTo('/pages/auth/login')" class="header-content space-between center">
+			<view  @click="hasLogin ? navTo('/pages/my/user', {login : true}) : navTo('/pages/auth/login')" class="header-content space-between center">
 				<view class="left row center" > 
 					<image :src="userInfo.imageUrl || '../../static/logo.png'" mode=""></image>
 					<view v-if="hasLogin" class="header-info column">

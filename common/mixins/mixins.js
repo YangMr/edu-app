@@ -5,13 +5,23 @@ export default {
 		}
 	},
 	methods : {
+		
+		
 		// 部分页面鉴权
 		// 所有页面鉴权 
 		// 部分页面鉴权
 		
+		handleToLogin(){
+			const hasLogin = this.$store.getters.hasLogin
+			if(!hasLogin){
+				this.navTo("/pages/auth/login")
+			}
+		},
+		
 		// 页面跳转的方法
 		// options ==  {login : data.login}
 		navTo(url, options = {}){
+			
 			if(!url) return
 			
 			// 判断当前页面跳转的时候 需不需要检测有没有 登录, 如果options.login 的

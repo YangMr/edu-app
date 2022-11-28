@@ -13,7 +13,7 @@
 					<text v-if="m.icon" :class="m.icon"></text>
 					<text class="title">{{m.title}}</text>
 				</view>
-				<view class="right">
+				<view class="right center">
 					<text v-if="m.text">{{m.text}}</text>
 					<image v-if="m.src" :src="m.src" mode=""></image>
 					<text v-if="m.rightIcon" :class="m.rightIcon"></text>

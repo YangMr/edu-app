@@ -22,7 +22,13 @@ const login = (data) => {
 	return request({url : '/auth/login', method : 'POST', data})
 }
 
+// 退出登录
+const logout = (accessToken) => {
+	return request({url : '/auth/logout', method : 'GET' , data : {accessToken}})
+}
+
 export default {
 	sendSmsCode,
-	login
+	login,
+	logout
 }
