@@ -139,7 +139,8 @@
 			
 			// 修改手机号
 			handleEditMobile(){
-				this.navTo('/pages/auth/bind-mobile')
+				const data = encodeURIComponent(JSON.stringify({userInfo : this.userInfo}))
+				this.navTo(`/pages/auth/bind-mobile?title=修改手机号&data=${data}`)
 			},
 			// 修改昵称
 			handleEditName(data){

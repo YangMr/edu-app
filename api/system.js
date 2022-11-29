@@ -20,9 +20,21 @@ const updateUserInfo = (data) => {
 	return request({url : '/system/user', method : 'PUT', data})
 }
 
+// 更新手机号接口
+const updateMobile = (data) => {
+	return request({url : '/auth/user/mobile', method : 'PUT', data})
+}
+
+// 意见反馈
+const sendFeedBack = (data) => {
+	return request({url : '/system/api/feedback', method : 'POST', data})
+}
+
 export default {
 	sendSmsCode,
 	login,
 	logout,
-	updateUserInfo
+	updateUserInfo,
+	updateMobile,
+	sendFeedBack
 }

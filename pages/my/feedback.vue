@@ -25,6 +25,7 @@
 </template>
 
 <script>
+	import systemApi from "@/api/system.js"
 	export default {
 		data() {
 			return {
@@ -67,9 +68,53 @@
 		methods: {
 			radioChange(e) {
 				console.log("e==>", e)
+				this.current = e.detail.value
 			},
-			submitHandler() {
-
+			async submitHandler() {
+				// 校验反馈的内容不能少于10个字符
+				if(this.formData.content.length < 10){
+					this.$util.msg("反馈内容至少输入10个字符")
+					return
+				}
+				
+				// 校验qq号格式是否正确
+				if(!this.$util.checkStr(this.formData.qq, 'QQ')){
+					this.$util.msg("您输入qq号格式不正确")
+					return
+				}
+				// 校验微信号格式是否正确
+				if(!this.$util.checkStr(this.formData.weixin, 'weixin')){
+					this.$util.msg("您输入微信号格式不正确")
+					return
+				}
+				
+				
+				
+				// 调用意见反馈接口
+				try{
+					uni.showLoading({})
+					this.formData.type = this.current
+					console.log("formData", this.formData)
+					
+					const response = await systemApi.sendFeedBack(this.formData)
+					uni.hideLoading()
+					
+					uni.showModal({
+						content: '您的意见反馈成功',
+						showCancel : false,
+						success: (res) => {
+							if (res.confirm) {
+								console.log('用户点击确定');
+								this.navBack(1)
+							} 
+						}
+					});
+					
+					console.log("response=>", response)
+				}catch(e){
+					//TODO handle the exception
+					console.log("e",e)
+				}
 			}
 		}
 	}
