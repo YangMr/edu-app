@@ -281,6 +281,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/auth/bind-mobile",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		// 状态栏与导航栏背景色
