@@ -72,8 +72,21 @@
             "path" : "pages/article/article",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+                "navigationBarTitleText": "阅读",
+                "enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#345DC2",
+				"app-plus": {
+					"titleNView": {
+						"searchInput": {
+							"align": "center",
+							"placeholder": "搜索你想要的内容",
+							"disabled": true,
+							"backgroundColor": "#F0F1F2",
+							"borderRadius": "30rpx",
+							"placeholderColor": "#979C9D"
+						}
+					}
+				}
             }
             
         }
@@ -283,6 +296,15 @@
         }
         ,{
             "path" : "pages/auth/bind-mobile",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/article/details",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
